@@ -3,7 +3,7 @@ import numpy as np
 
 image = cv2.imread("data/sampleimage5.png")
 if image is None:
-    raise FileNotFoundError("Image not found at data/sampleimage3.png")
+    raise FileNotFoundError("Image not found at data/sampleimage5.png")
 
 hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
 
