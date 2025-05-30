@@ -75,15 +75,15 @@ def main():
     # Filepath to input image
     image_path = "data/sampleimage.jpg"
 
-    # HSV range for detecting blue-colored skis
-    lower_blue = np.array([35, 40, 40])
-    upper_blue = np.array([85, 255, 255])
+    # HSV range for detecting green-colored skis
+    lower_green = np.array([35, 40, 40])
+    upper_green = np.array([85, 255, 255])
 
     # Step 1: Load image from file
     image = load_image(image_path)
 
-    # Step 2: Convert image to HSV and create binary mask for blue regions
-    mask = to_hsv_mask(image, lower_blue, upper_blue)
+    # Step 2: Convert image to HSV and create binary mask for green regions
+    mask = to_hsv_mask(image, lower_green, upper_green)
 
     # Step 3: Apply morphological operations to clean the mask
     processed_mask = preprocess_mask(mask, kernel_size=25)
