@@ -1,6 +1,16 @@
 import cv2
 import numpy as np
 
+
+# Define HSV ranges for blue, green, and red
+COLOR_RANGES = {
+    "green": (np.array([35, 40, 40]), np.array([85, 255, 255])),
+    "blue":  (np.array([100, 100, 40]), np.array([130, 255, 255])),
+    "red1":  (np.array([0, 100, 40]), np.array([10, 255, 255])),
+    "red2":  (np.array([160, 100, 40]), np.array([180, 255, 255]))
+}
+
+
 def resize_to_fit(image, max_size=1000):
     h, w = image.shape[:2]
     scale = min(max_size / w, max_size / h, 1.0)
@@ -77,19 +87,17 @@ def draw_detected_skis(image: np.ndarray, contours) -> np.ndarray:
 
     return output
 
-def main():
-    # Filepath to input image
-    image_path = "data/sampleimage.jpg"
+def main(color, image_path = "sampleimage.jpg"):
 
-    # HSV range for detecting green-colored skis
-    lower_green = np.array([35, 40, 40])
-    upper_green = np.array([85, 255, 255])
+    # HSV range for detecting colored skis
+    lower = COLOR_RANGES[color][0]
+    upper = COLOR_RANGES[color][1]
 
     # Step 1: Load image from file
     image = load_image(image_path)
 
-    # Step 2: Convert image to HSV and create binary mask for green regions
-    mask = to_hsv_mask(image, lower_green, upper_green)
+    # Step 2: Convert image to HSV and create binary mask for colored regions
+    mask = to_hsv_mask(image, lower, upper)
 
     # Step 3: Apply morphological operations to clean the mask
     processed_mask = preprocess_mask(mask, kernel_size=25)
@@ -115,4 +123,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    main("green", "sampleimage.jpg")  # Change color and image path as needed
