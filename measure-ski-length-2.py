@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
 
+def resize_to_fit(image, max_size=1000):
+    h, w = image.shape[:2]
+    scale = min(max_size / w, max_size / h, 1.0)
+    new_w, new_h = int(w * scale), int(h * scale)
+    return cv2.resize(image, (new_w, new_h), interpolation=cv2.INTER_AREA)
+
 def load_image(path: str) -> np.ndarray:
     """
     Loads an image from the specified path.
@@ -98,12 +104,13 @@ def main():
     output = draw_detected_skis(image, ski_contours)
 
     # Step 7: Show results
-    cv2.namedWindow("Processed Mask", cv2.WINDOW_NORMAL)
-    cv2.imshow("Processed Mask", processed_mask)
-    cv2.namedWindow("Detected Skis", cv2.WINDOW_NORMAL)
-    cv2.imshow("Detected Skis", output)
-    cv2.imshow("Processed Mask", processed_mask)
-    cv2.imshow("Detected Skis", output)
+    processed_mask_resized = resize_to_fit(processed_mask)
+    output_resized = resize_to_fit(output)
+
+    cv2.namedWindow("Processed Mask", cv2.WINDOW_AUTOSIZE)
+    cv2.imshow("Processed Mask", processed_mask_resized)
+    cv2.namedWindow("Detected Skis", cv2.WINDOW_AUTOSIZE)
+    cv2.imshow("Detected Skis", output_resized)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
