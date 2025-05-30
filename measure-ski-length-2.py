@@ -73,11 +73,11 @@ def draw_detected_skis(image: np.ndarray, contours) -> np.ndarray:
 
 def main():
     # Filepath to input image
-    image_path = "data/sampleimage5.png"
+    image_path = "data/sampleimage.jpg"
 
     # HSV range for detecting blue-colored skis
-    lower_blue = np.array([105, 120, 50])
-    upper_blue = np.array([130, 255, 255])
+    lower_blue = np.array([35, 40, 40])
+    upper_blue = np.array([85, 255, 255])
 
     # Step 1: Load image from file
     image = load_image(image_path)
@@ -92,12 +92,16 @@ def main():
     contours, _ = cv2.findContours(processed_mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
     # Step 5: Filter contours based on area and shape to isolate skis
-    ski_contours = filter_ski_contours(contours)
+    ski_contours = filter_ski_contours(contours, 100000)
 
     # Step 6: Draw results and print stats
     output = draw_detected_skis(image, ski_contours)
 
     # Step 7: Show results
+    cv2.namedWindow("Processed Mask", cv2.WINDOW_NORMAL)
+    cv2.imshow("Processed Mask", processed_mask)
+    cv2.namedWindow("Detected Skis", cv2.WINDOW_NORMAL)
+    cv2.imshow("Detected Skis", output)
     cv2.imshow("Processed Mask", processed_mask)
     cv2.imshow("Detected Skis", output)
     cv2.waitKey(0)
