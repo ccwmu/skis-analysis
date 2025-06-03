@@ -87,7 +87,7 @@ def draw_detected_skis(image: np.ndarray, contours) -> np.ndarray:
 
     return output
 
-def main(color, image_path = "sampleimage.jpg"):
+def main(color, image_path = "data/sampleimage.jpg"):
 
     # HSV range for detecting colored skis
     lower = COLOR_RANGES[color][0]
@@ -123,4 +123,4 @@ def main(color, image_path = "sampleimage.jpg"):
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main("green", "sampleimage.jpg")  # Change color and image path as needed
+    main("green")  # Change color and image path as needed
